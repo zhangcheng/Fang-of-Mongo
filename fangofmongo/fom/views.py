@@ -6,7 +6,7 @@ from django.utils import simplejson as json
 import re
 import base64
 import pymongo
-from pymongo import json_util
+from pymongo import binary, json_util
 import handle_plugins
 from exceptions import CmdException
 
@@ -29,7 +29,7 @@ def fix_json_output(json_obj):
             for k in d:
                 data[_fix_json(k)] = _fix_json(d[k])
             return data
-        elif data_type == pymongo.binary.Binary:
+        elif data_type == binary.Binary:
             ud = base64.encodestring(d)
             return { '$binary' : ud, '$type': d.subtype }
         else:
